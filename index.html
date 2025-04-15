@@ -100,31 +100,37 @@
     }
 
     async function askQuestion() {
-      const rawInput = document.getElementById('questionInput').value.trim();
+  const rawInput = document.getElementById('questionInput').value.trim();
 
-      if (!rawInput || rawInput.length > 200) {
-        alert("Inserisci una domanda valida (massimo 200 caratteri).");
-        return;
-      }
+  if (!rawInput || rawInput.length > 200) {
+    alert("Inserisci una domanda valida (massimo 200 caratteri).");
+    return;
+  }
 
-      const question = escapeHtml(rawInput);
+  const question = escapeHtml(rawInput);
 
-      try {
-        const response = await fetch(this.prodUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ question })
-        });
+  try {
+    const response = await fetch(prodUrl, { // Use prodUrl directly
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question })
+    });
 
-        const data = await response.json();
-        document.getElementById('answer').innerText = data.answer;
-        document.getElementById('link').innerHTML =
-          `<a href="/question/${encodeURIComponent(data.slug)}" target="_blank" rel="noopener noreferrer">Link permanente alla risposta</a>`;
-      } catch (err) {
-        console.error("Errore:", err);
-        document.getElementById('answer').innerText = "Errore: " + escapeHtml(err.message);
-      }
+    const data = await response.json();
+
+    if (!data.answer || !data.slug) {
+      throw new Error("Risposta o slug non validi dal server.");
     }
+
+    document.getElementById('answer').innerText = data.answer;
+    document.getElementById('link').innerHTML =
+      `<a href="/question/${encodeURIComponent(data.slug)}" target="_blank" rel="noopener noreferrer">Link permanente alla risposta</a>`;
+  } catch (err) {
+    console.error("Errore:", err);
+    document.getElementById('answer').innerText = "Errore: " + escapeHtml(err.message);
+  }
+}
+    
   </script>
 </body>
 </html>
