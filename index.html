@@ -87,6 +87,9 @@
   <p id="link"></p>
 
   <script>
+
+    const devUrl = 'http://localhost:5000/ask';
+    const prodUrl = 'https://intelliask-backend.onrender.com/ask';
     function escapeHtml(unsafe) {
       return unsafe
         .replace(/&/g, "&amp;")
@@ -107,7 +110,7 @@
       const question = escapeHtml(rawInput);
 
       try {
-        const response = await fetch('http://localhost:5000/ask', {
+        const response = await fetch(this.prodUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ question })
