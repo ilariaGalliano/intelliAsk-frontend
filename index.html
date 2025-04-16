@@ -77,19 +77,33 @@
     }
   </style>
 </head>
-
 <body>
   <h1>IntelliAsk</h1>
   <p>Il generatore di risposte intelligente</p>
   <input type="text" id="questionInput" maxlength="200" placeholder="Come preparare la pasta?" />
-  <button onclick="askQuestion()">Chiedi</button>
+  <button onclick="askQuestion()" id="askButton">Chiedi</button>
+  <p id="loading">Sto pensando...</p>
   <p id="answer"></p>
   <p id="link"></p>
 
   <script>
+    const prodUrl = 'https://intelliask-backend.onrender.com/ask';
+    const sitemapUrl = 'https://intelliask-backend.onrender.com/sitemap.xml';
 
-    const devUrl = 'http://localhost:5000/ask';
-    const prodUrl = 'https://intelliask-backend.onrender.com/ask'; 
+    fetch(sitemapUrl)
+      .then(res => res.text())
+      .then(xml => {
+        const blob = new Blob([xml], { type: 'application/xml' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'sitemap.xml';
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        // link.click(); // <-- scommenta per forzare download lato client (solo dev)
+        document.body.removeChild(link);
+      })
+      .catch(err => console.error("Errore nel prelievo sitemap:", err));
+
     function escapeHtml(unsafe) {
       return unsafe
         .replace(/&/g, "&amp;")
@@ -100,37 +114,48 @@
     }
 
     async function askQuestion() {
-  const rawInput = document.getElementById('questionInput').value.trim();
+      const rawInput = document.getElementById('questionInput').value.trim();
+      const loading = document.getElementById('loading');
+      const answerEl = document.getElementById('answer');
+      const linkEl = document.getElementById('link');
+      const button = document.getElementById('askButton');
 
-  if (!rawInput || rawInput.length > 200) {
-    alert("Inserisci una domanda valida (massimo 200 caratteri).");
-    return;
-  }
+      if (!rawInput || rawInput.length > 200) {
+        alert("Inserisci una domanda valida (massimo 200 caratteri).");
+        return;
+      }
 
-  const question = escapeHtml(rawInput);
+      const question = escapeHtml(rawInput);
 
-  try {
-    const response = await fetch(prodUrl, { // Use prodUrl directly
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question })
-    });
+      loading.style.display = 'block';
+      answerEl.innerText = '';
+      linkEl.innerHTML = '';
+      button.disabled = true;
 
-    const data = await response.json();
+      try {
+        const response = await fetch(prodUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question })
+        });
 
-    if (!data.answer || !data.slug) {
-      throw new Error("Risposta o slug non validi dal server.");
+        const data = await response.json();
+
+        if (!data.answer || !data.slug) {
+          throw new Error("Risposta o slug non validi dal server.");
+        }
+
+        answerEl.innerText = data.answer;
+        linkEl.innerHTML =
+          `<a href="/question/${encodeURIComponent(data.slug)}" target="_blank" rel="noopener noreferrer">Link permanente alla risposta</a>`;
+      } catch (err) {
+        console.error("Errore:", err);
+        answerEl.innerText = "Errore: " + escapeHtml(err.message);
+      } finally {
+        loading.style.display = 'none';
+        button.disabled = false;
+      }
     }
-
-    document.getElementById('answer').innerText = data.answer;
-    document.getElementById('link').innerHTML =
-      `<a href="/question/${encodeURIComponent(data.slug)}" target="_blank" rel="noopener noreferrer">Link permanente alla risposta</a>`;
-  } catch (err) {
-    console.error("Errore:", err);
-    document.getElementById('answer').innerText = "Errore: " + escapeHtml(err.message);
-  }
-}
-    
   </script>
 </body>
 </html>
