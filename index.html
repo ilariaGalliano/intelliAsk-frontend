@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="google-site-verification" content="m20ldOAxhLFjAoJuxIOILsfu9CLuUY15S9vxEArZSXE" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css">
   <title>IntelliAsk</title>
   <style>
     body {
@@ -114,48 +115,70 @@
     }
 
     async function askQuestion() {
-      const rawInput = document.getElementById('questionInput').value.trim();
-      const loading = document.getElementById('loading');
-      const answerEl = document.getElementById('answer');
-      const linkEl = document.getElementById('link');
-      const button = document.getElementById('askButton');
+  const rawInput = document.getElementById('questionInput').value.trim();
+  const loading = document.getElementById('loading');
+  const answerEl = document.getElementById('answer');
+  const linkEl = document.getElementById('link');
+  const button = document.getElementById('askButton');
 
-      if (!rawInput || rawInput.length > 200) {
-        alert("Inserisci una domanda valida (massimo 200 caratteri).");
-        return;
-      }
+  // Validate input
+  if (!rawInput || rawInput.length > 200) {
+    alert("Inserisci una domanda valida (massimo 200 caratteri).");
+    return;
+  }
 
-      const question = escapeHtml(rawInput);
+  const question = escapeHtml(rawInput);
 
-      loading.style.display = 'block';
-      answerEl.innerText = '';
-      linkEl.innerHTML = '';
-      button.disabled = true;
+  // Show loading state
+  loading.style.display = 'block';
+  loading.innerText = 'Sto pensando...';
+  answerEl.innerHTML = ''; // Clear previous answer
+  linkEl.innerHTML = ''; // Clear previous link
+  button.disabled = true;
 
-      try {
-        const response = await fetch(prodUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ question })
-        });
+  try {
+    // Fetch the response from the backend
+    const response = await fetch(prodUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question })
+    });
 
-        const data = await response.json();
+    const data = await response.json();
 
-        if (!data.answer || !data.slug) {
-          throw new Error("Risposta o slug non validi dal server.");
-        }
-
-        answerEl.innerText = data.answer;
-        linkEl.innerHTML =
-          `<a href="/question/${encodeURIComponent(data.slug)}" target="_blank" rel="noopener noreferrer">Link permanente alla risposta</a>`;
-      } catch (err) {
-        console.error("Errore:", err);
-        answerEl.innerText = "Errore: " + escapeHtml(err.message);
-      } finally {
-        loading.style.display = 'none';
-        button.disabled = false;
-      }
+    // Handle invalid response
+    if (!data.answer || !data.slug) {
+      throw new Error("Risposta o slug non validi dal server.");
     }
+
+    // Display the answer with styled HTML
+    answerEl.innerHTML = `
+      <div class="response-container">
+        <h2 class="response-title">Risultato:</h2>
+        <p class="response-text">${data.answer}</p>
+      </div>
+    `;
+
+    // Add a permanent link to the answer
+    linkEl.innerHTML = `
+      <a href="/question/${encodeURIComponent(data.slug)}" target="_blank" rel="noopener noreferrer" class="response-link">
+        Link permanente alla risposta
+      </a>
+    `;
+  } catch (err) {
+    console.error("Errore:", err);
+    answerEl.innerHTML = `
+      <div class="error-container">
+        <p class="error-text">Errore: ${escapeHtml(err.message)}</p>
+      </div>
+    `;
+  } finally {
+    // Hide loading state and re-enable the button
+    loading.style.display = 'none';
+    button.disabled = false;
+  }
+}
+
   </script>
 </body>
 </html>

@@ -1,0 +1,77 @@
+/* Styling for the response container */
+.response-container {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+  }
+  
+  .response-title {
+    font-size: 1.5rem;
+    color: #0077cc;
+    margin-bottom: 10px;
+  }
+  
+  .response-text {
+    font-size: 1.2rem;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  /* Styling for the permanent link */
+  .response-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #0077cc;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .response-link:hover {
+    color: #005fa3;
+    text-decoration: underline;
+  }
+  
+  /* Styling for error messages */
+  .error-container {
+    background: #ffe6e6;
+    border: 1px solid #ffcccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(255, 0, 0, 0.1);
+    text-align: left;
+  }
+  
+  .error-text {
+    font-size: 1.2rem;
+    color: #cc0000;
+    line-height: 1.6;
+  }
+
+  /* Styling for the permanent link */
+.response-link {
+    display: inline-block;
+    margin-top: 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #0077cc;
+    text-decoration: none;
+    padding: 10px 15px;
+    border: 2px solid #0077cc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+  }
+  
+  .response-link:hover {
+    background-color: #0077cc;
+    color: #ffffff;
+    border-color: #005fa3;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
