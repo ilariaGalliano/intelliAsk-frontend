@@ -152,7 +152,7 @@
       <div class="recipe">
         <h2 class="recipe-title">Risultato:</h2>
         <p id="answerText">${data.answer.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<li>$1</li>')}</p>
-        <button class="copy-button" onclick="copyToClipboard()">Copia negli appunti</button>
+        <button class="copy-button" onclick="copyToClipboard()">Copia risposta</button>
       </div>
     `;
 
@@ -183,7 +183,7 @@ function copyToClipboard() {
     alert("Risposta copiata negli appunti!");
   }).catch(err => {
     console.error("Errore durante la copia:", err);
-    alert("Errore durante la copia negli appunti.");
+    alert("Errore durante la copia della risposta.");
   });
 }
 
