@@ -121,7 +121,6 @@
   const linkEl = document.getElementById('link');
   const button = document.getElementById('askButton');
 
-  // Validate input
   if (!rawInput || rawInput.length > 200) {
     alert("Inserisci una domanda valida (massimo 200 caratteri).");
     return;
@@ -129,15 +128,13 @@
 
   const question = escapeHtml(rawInput);
 
-  // Show loading state
   loading.style.display = 'block';
   loading.innerText = 'Sto pensando...';
-  answerEl.innerHTML = ''; // Clear previous answer
-  linkEl.innerHTML = ''; // Clear previous link
+  answerEl.innerHTML = '';
+  linkEl.innerHTML = '';
   button.disabled = true;
 
   try {
-    // Fetch the response from the backend
     const response = await fetch(prodUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -146,20 +143,21 @@
 
     const data = await response.json();
 
-    // Handle invalid response
     if (!data.answer || !data.slug) {
       throw new Error("Risposta o slug non validi dal server.");
     }
 
-    // Display the answer with styled HTML
-    answerEl.innerHTML = `
-      <div class="response-container">
-        <h2 class="response-title">Risultato:</h2>
-        <p class="response-text">${data.answer}</p>
+    // Formatta la risposta con un pulsante per copiare
+    const formattedAnswer = `
+      <div class="recipe">
+        <h2 class="recipe-title">Risultato:</h2>
+        <p id="answerText">${data.answer.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<li>$1</li>')}</p>
+        <button class="copy-button" onclick="copyToClipboard()">Copia negli appunti</button>
       </div>
     `;
 
-    // Add a permanent link to the answer
+    answerEl.innerHTML = formattedAnswer;
+
     linkEl.innerHTML = `
       <a href="/question/${encodeURIComponent(data.slug)}" target="_blank" rel="noopener noreferrer" class="response-link">
         Link permanente alla risposta
@@ -173,10 +171,20 @@
       </div>
     `;
   } finally {
-    // Hide loading state and re-enable the button
     loading.style.display = 'none';
     button.disabled = false;
   }
+}
+
+// Funzione per copiare il testo negli appunti
+function copyToClipboard() {
+  const answerText = document.getElementById('answerText').innerText;
+  navigator.clipboard.writeText(answerText).then(() => {
+    alert("Risposta copiata negli appunti!");
+  }).catch(err => {
+    console.error("Errore durante la copia:", err);
+    alert("Errore durante la copia negli appunti.");
+  });
 }
 
   </script>
