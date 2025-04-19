@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="google-site-verification" content="m20ldOAxhLFjAoJuxIOILsfu9CLuUY15S9vxEArZSXE" />
@@ -36,7 +37,7 @@
       border: 1px solid #ccc;
       border-radius: 8px;
       margin-top: 20px;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
     }
 
     button {
@@ -78,12 +79,13 @@
     }
   </style>
 </head>
+
 <body>
   <h1>IntelliAsk</h1>
   <p>Il generatore di risposte intelligente</p>
   <input type="text" id="questionInput" maxlength="200" placeholder="Come preparare la pasta?" />
   <button onclick="askQuestion()" id="askButton">Chiedi</button>
-  <p id="loading">Sto pensando...</p>
+  <p id="loading" style="display: none;"">Sto pensando...</p>
   <p id="answer"></p>
   <p id="link"></p>
 
@@ -115,40 +117,40 @@
     }
 
     async function askQuestion() {
-  const rawInput = document.getElementById('questionInput').value.trim();
-  const loading = document.getElementById('loading');
-  const answerEl = document.getElementById('answer');
-  const linkEl = document.getElementById('link');
-  const button = document.getElementById('askButton');
+      const rawInput = document.getElementById('questionInput').value.trim();
+      const loading = document.getElementById('loading');
+      const answerEl = document.getElementById('answer');
+      const linkEl = document.getElementById('link');
+      const button = document.getElementById('askButton');
 
-  if (!rawInput || rawInput.length > 200) {
-    alert("Inserisci una domanda valida (massimo 200 caratteri).");
-    return;
-  }
+      if (!rawInput || rawInput.length > 200) {
+        alert("Inserisci una domanda valida (massimo 200 caratteri).");
+        return;
+      }
 
-  const question = escapeHtml(rawInput);
+      const question = escapeHtml(rawInput);
 
-  loading.style.display = 'block';
-  loading.innerText = 'Sto pensando...';
-  answerEl.innerHTML = '';
-  linkEl.innerHTML = '';
-  button.disabled = true;
+      loading.style.display = 'block';
+      loading.innerText = 'Sto pensando...';
+      answerEl.innerHTML = '';
+      linkEl.innerHTML = '';
+      button.disabled = true;
 
-  try {
-    const response = await fetch(prodUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question })
-    });
+      try {
+        const response = await fetch(prodUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question })
+        });
 
-    const data = await response.json();
+        const data = await response.json();
 
-    if (!data.answer || !data.slug) {
-      throw new Error("Risposta o slug non validi dal server.");
-    }
+        if (!data.answer || !data.slug) {
+          throw new Error("Risposta o slug non validi dal server.");
+        }
 
-    // Formatta la risposta con un pulsante per copiare
-    const formattedAnswer = `
+        // Formatta la risposta con un pulsante per copiare
+        const formattedAnswer = `
       <div class="recipe">
         <h2 class="recipe-title">Risultato:</h2>
         <p id="answerText">${data.answer.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<li>$1</li>')}</p>
@@ -156,37 +158,38 @@
       </div>
     `;
 
-    answerEl.innerHTML = formattedAnswer;
+        answerEl.innerHTML = formattedAnswer;
 
-    linkEl.innerHTML = `
+        linkEl.innerHTML = `
       <a href="/question/${encodeURIComponent(data.slug)}" target="_blank" rel="noopener noreferrer" class="response-link">
         Link permanente alla risposta
       </a>
     `;
-  } catch (err) {
-    console.error("Errore:", err);
-    answerEl.innerHTML = `
+      } catch (err) {
+        console.error("Errore:", err);
+        answerEl.innerHTML = `
       <div class="error-container">
         <p class="error-text">Errore: ${escapeHtml(err.message)}</p>
       </div>
     `;
-  } finally {
-    loading.style.display = 'none';
-    button.disabled = false;
-  }
-}
+      } finally {
+        loading.style.display = 'none';
+        button.disabled = false;
+      }
+    }
 
-// Funzione per copiare il testo negli appunti
-function copyToClipboard() {
-  const answerText = document.getElementById('answerText').innerText;
-  navigator.clipboard.writeText(answerText).then(() => {
-    alert("Risposta copiata negli appunti!");
-  }).catch(err => {
-    console.error("Errore durante la copia:", err);
-    alert("Errore durante la copia della risposta.");
-  });
-}
+    // Funzione per copiare il testo negli appunti
+    function copyToClipboard() {
+      const answerText = document.getElementById('answerText').innerText;
+      navigator.clipboard.writeText(answerText).then(() => {
+        alert("Risposta copiata!");
+      }).catch(err => {
+        console.error("Errore durante la copia:", err);
+        alert("Errore durante la copia della risposta.");
+      });
+    }
 
   </script>
 </body>
+
 </html>
