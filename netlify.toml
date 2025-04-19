@@ -1,6 +1,3 @@
-[build]
-  publish = "intelliAsk-frontend/public"
-  
 [[redirects]]
   from = "/question/*"
   to = "https://intelliask-backend.onrender.com/question/:splat"
