@@ -95,6 +95,29 @@
     #answer {
       font-size: 1rem;
     }
+
+    .recipe-title {
+      font-size: 1.5rem;
+    }
+  
+    #answerText {
+      font-size: 1rem;
+    }
+  
+    .copy-button {
+      font-size: 0.9rem;
+      padding: 8px 16px;
+      margin: 10px auto;
+      display: block;
+    }
+  
+    .response-link {
+      font-size: 0.9rem;
+      padding: 8px 16px;
+      margin: 10px auto;
+      display: block;
+      text-align: center;
+    }
   }
 
   @media (max-width: 480px) {
@@ -103,7 +126,7 @@
     }
 
     p {
-      font-size: 1rem;
+      font-size: 0.8rem;
     }
 
     input[type="text"] {
@@ -118,6 +141,19 @@
 
     #answer {
       font-size: 0.9rem;
+    }
+
+    .copy-button {
+      font-size: 0.6rem;
+      padding: 6px 12px;
+    }
+
+    .response-link {
+      font-size: 0.8rem;
+      padding: 6px 12px;
+      margin: 10px auto;
+      display: block; 
+      text-align: center;
     }
   }
 
