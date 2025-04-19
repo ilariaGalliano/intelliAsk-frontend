@@ -144,8 +144,16 @@
     }
 
     .copy-button {
+      margin-top: 15px;
+      padding: 0;
       font-size: 0.6rem;
-      padding: 6px 12px;
+      font-weight: bold;
+      color: white;
+      background-color: #0077cc;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
     }
 
     .response-link {
@@ -283,6 +291,7 @@
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    display: block;
   }
 
   .copy-button:hover {
