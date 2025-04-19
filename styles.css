@@ -1,5 +1,128 @@
-/* Styling for the response container */
-.response-container {
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(145deg, #f0f0f0, #ffffff);
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    padding: 50px 20px;
+  }
+
+  h1 {
+    font-size: 3rem;
+    color: #0077cc;
+    margin-bottom: 0.3em;
+    text-align: center;
+  }
+
+  p {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  input[type="text"] {
+    width: 80%;
+    max-width: 500px;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  button {
+    padding: 12px 24px;
+    margin-top: 15px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #0077cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #005fa3;
+  }
+
+  #answer {
+    margin-top: 30px;
+    font-size: 1.2rem;
+    max-width: 700px;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  #link {
+    margin-top: 10px;
+    font-size: 0.9rem;
+  }
+
+  a {
+    color: #0077cc;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  /* Media Queries */
+  @media (max-width: 768px) {
+    body {
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      font-size: 0.9rem;
+    }
+
+    button {
+      width: 100%;
+      font-size: 0.9rem;
+      padding: 10px;
+    }
+
+    #answer {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    h1 {
+      font-size: 2rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+
+    input[type="text"] {
+      font-size: 0.8rem;
+      padding: 10px;
+    }
+
+    button {
+      font-size: 0.8rem;
+      padding: 8px;
+    }
+
+    #answer {
+      font-size: 0.9rem;
+    }
+  }
+
+  /* Styling for the response container */
+  .response-container {
     background: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -8,19 +131,19 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: left;
   }
-  
+
   .response-title {
     font-size: 1.5rem;
     color: #0077cc;
     margin-bottom: 10px;
   }
-  
+
   .response-text {
     font-size: 1.2rem;
     color: #333;
     line-height: 1.6;
   }
-  
+
   /* Styling for the permanent link */
   .response-link {
     display: inline-block;
@@ -30,12 +153,12 @@
     text-decoration: none;
     transition: color 0.3s ease;
   }
-  
+
   .response-link:hover {
     color: #005fa3;
     text-decoration: underline;
   }
-  
+
   /* Styling for error messages */
   .error-container {
     background: #ffe6e6;
@@ -46,7 +169,7 @@
     box-shadow: 0 4px 6px rgba(255, 0, 0, 0.1);
     text-align: left;
   }
-  
+
   .error-text {
     font-size: 1.2rem;
     color: #cc0000;
@@ -54,7 +177,7 @@
   }
 
   /* Contenitore della ricetta */
-.recipe {
+  .recipe {
     background: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -63,34 +186,34 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: left;
   }
-  
+
   .recipe-title {
     font-size: 1.8rem;
     color: #0077cc;
     margin-bottom: 15px;
   }
-  
+
   .recipe p {
     font-size: 1.2rem;
     line-height: 1.6;
     color: #333;
   }
-  
+
   .recipe ul {
     list-style-type: disc;
     margin-left: 20px;
     padding-left: 20px;
   }
-  
+
   .recipe li {
     margin-bottom: 10px;
     font-size: 1rem;
     color: #555;
   }
-  
+
 
   /* Styling for the permanent link */
-.response-link {
+  .response-link {
     display: inline-block;
     margin-top: 15px;
     font-size: 1rem;
@@ -103,7 +226,7 @@
     background-color: #f9f9f9;
     transition: all 0.3s ease;
   }
-  
+
   .response-link:hover {
     background-color: #0077cc;
     color: #ffffff;
@@ -113,7 +236,7 @@
   }
 
   /* Styling for the copy button */
-.copy-button {
+  .copy-button {
     margin-top: 15px;
     padding: 10px 20px;
     font-size: 1rem;
@@ -125,7 +248,7 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
-  
+
   .copy-button:hover {
     background-color: #005fa3;
   }
