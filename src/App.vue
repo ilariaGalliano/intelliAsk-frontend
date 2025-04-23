@@ -62,10 +62,10 @@ function escapeHtml(unsafe) {
     .replace(/'/g, "&#039;")
 }
 
-const formattedAnswer = computed(() => {
-  if (!answer.value) return "";
+function formatAnswerText(rawAnswer) {
+  if (!rawAnswer) return "";
 
-  const lines = answer.value.split('\n');
+  const lines = rawAnswer.split('\n');
 
   const processedLines = lines.map(line => {
     line = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
@@ -87,8 +87,9 @@ const formattedAnswer = computed(() => {
   return hasListItems
     ? `<ul>${html}</ul>`
     : html;
-});
+}
 
+const formattedAnswer = computed(() => formatAnswerText(answer.value));
 
 async function askQuestion() {
   error.value = ''
@@ -124,7 +125,8 @@ async function askQuestion() {
 }
 
 function copyToClipboard() {
-  navigator.clipboard.writeText(answer.value).then(() => {
+  const plainTextAnswer = answer.value.replace(/<\/?[^>]+(>|$)/g, ""); // Remove HTML tags for plain text
+  navigator.clipboard.writeText(plainTextAnswer).then(() => {
     alert("Risposta copiata!")
   }).catch(err => {
     console.error("Errore durante la copia:", err)
