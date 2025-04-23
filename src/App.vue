@@ -66,6 +66,7 @@ const formattedAnswer = computed(() => {
   const formatted = answer.value
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
     .replace(/\*(.*?)\*/g, '<li>$1</li>'); 
+    .replace(/\*/g, '');
 
   return formatted.includes('<li>')
     ? `<ul>${formatted}</ul>`
