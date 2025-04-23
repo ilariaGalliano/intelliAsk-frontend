@@ -63,16 +63,32 @@ function escapeHtml(unsafe) {
 }
 
 const formattedAnswer = computed(() => {
-  const formatted = answer.value
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
-    .replace(/\*(.*?)\*/g, '<li>$1</li>')
-    .replace(/\*/g, '')
-    .replace(/\*\*/g, '');
+  if (!answer.value) return "";
 
-  return formatted.includes('<li>')
-    ? `<ul>${formatted}</ul>`
-    : formatted;
+  const lines = answer.value.split('\n');
+
+  const processedLines = lines.map(line => {
+    line = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+    if (/^\s*\*\s+/.test(line)) {
+      const content = line.replace(/^\s*\*\s+/, '');
+      return `<li>${content}</li>`;
+    }
+
+    return line;
+  });
+
+  const hasListItems = processedLines.some(line => line.startsWith('<li>'));
+
+  const html = hasListItems
+    ? processedLines.map(line => line.startsWith('<li>') ? line : `<p>${line}</p>`).join('')
+    : processedLines.map(line => `<p>${line}</p>`).join('');
+
+  return hasListItems
+    ? `<ul>${html}</ul>`
+    : html;
 });
+
 
 async function askQuestion() {
   error.value = ''
