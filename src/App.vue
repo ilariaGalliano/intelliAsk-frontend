@@ -16,7 +16,7 @@
       <h2 class="recipe-title">Risultato:</h2>
       <p id="answerText" class="formatted-answer" v-html="formattedAnswer"></p>
       <button class="copy-button" @click="copyToClipboard" aria-label="Copia risposta">
-           <i class="fas fa-copy"></i>
+        <i class="fas fa-copy"></i>
       </button>
 
     </div>
@@ -37,7 +37,21 @@
 
     <!-- Footer -->
     <footer class="footer">
-      <p class="p-footer">© 2025 IntelliAsk - Creato con ❤️ da Ilaria</p>
+      <p class="p-footer">© 2025 IntelliAsk - Creato con ❤️ da <a href="https://ilariagalliano.netlify.app/"
+          target="_blank">Ilaria</a></p>
+      <a href="https://www.paypal.com/donate/?hosted_button_id=VM7YKBPDUMJMQ" target="_blank"
+      style="
+        background-color: #0078d7;
+        color: white;
+        padding: 10px 15px;
+        font-size: 14px;
+        border: none;
+        border-radius: 8px;
+        text-decoration: none;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: background-color 0.3s ease;
+        display: inline-block;
+     ">☕ Offrimi un caffè</a>
     </footer>
   </div>
 </template>
@@ -138,7 +152,7 @@ function copyToClipboard() {
 <style>
 /* Variabili di stile */
 :root {
-  --primary-color: #0078d7; 
+  --primary-color: #0078d7;
   --primary-gradient: linear-gradient(135deg, #0078d7, #00aaff);
   --secondary-color: #f4f9fc;
   --text-color: #333;
@@ -149,7 +163,8 @@ function copyToClipboard() {
 }
 
 /* Impostazioni base */
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   font-family: 'Inter', sans-serif;
@@ -185,7 +200,7 @@ body {
   text-align: center;
   padding: 1rem 0;
   z-index: 1000;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .logo {
