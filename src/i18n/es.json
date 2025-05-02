@@ -1,0 +1,11 @@
+{
+    "title": "El generador inteligente de respuestas",
+    "ask_something": "Como preparar la paella?",
+    "ask": "Busca",
+    "thinking": "Estoy pensando..",
+    "result": "Respuesta:",
+    "created_by": "Creado por",
+    "offer_coffee": "Invítame a un café",
+    "link": "Enlace permanente a la respuesta",
+    "footer_p": "*Las respuestas podrían ser incorrectas y/o no estar actualizadas."
+}

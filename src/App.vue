@@ -1,19 +1,29 @@
 <template>
   <div class="container">
+    <nav class="p-absolute">
+      <select class="language-selector" @change="changeLanguage($event.target.value)">
+        <option value="it">🇮🇹</option>
+        <option value="en">🇬🇧</option>
+        <option value="fr">🇫🇷</option>
+        <option value="es">🇪🇸</option>
+        <option value="de">🇩🇪</option>
+      </select>
+    </nav>
+
     <!-- Header con logo -->
     <header class="header">
       <img src="/logo.png" alt="Logo IntelliAsk" class="logo" />
     </header>
 
     <h1>IntelliAsk</h1>
-    <p>Il generatore di risposte intelligente</p>
-    <input v-model="question" type="text" maxlength="200" placeholder="Come preparare la pasta?" />
-    <button :disabled="isLoading" @click="askQuestion">Chiedi</button>
+    <p>{{ $t('title') }}</p>
+    <input v-model="question" type="text" maxlength="200" :placeholder="$t('ask_something')" />
+    <button :disabled="isLoading" @click="askQuestion">{{ $t('ask') }}</button>
 
-    <p v-if="isLoading">Sto pensando...</p>
+    <p v-if="isLoading">{{ $t('thinking') }}</p>
 
     <div v-if="answer" class="recipe">
-      <h2 class="recipe-title">Risultato:</h2>
+      <h2 class="recipe-title">{{ $t('result') }}</h2>
       <p id="answerText" class="formatted-answer" v-html="formattedAnswer"></p>
       <button class="copy-button" @click="copyToClipboard" aria-label="Copia risposta">
         <i class="fas fa-copy"></i>
@@ -24,10 +34,10 @@
     <div v-if="slug">
       <a :href="'/question/' + encodeURIComponent(slug)" target="_blank" rel="noopener noreferrer"
         class="response-link">
-        Link permanente alla risposta
+        {{ $t('link') }}
       </a>
       <p style="font-size:10px; margin-top: 20px; margin-bottom: 10px;">
-        *Le risposte potrebbero essere scorrette e/o non aggiornate.
+        {{ $t('footer_p') }}
       </p>
     </div>
 
@@ -37,10 +47,9 @@
 
     <!-- Footer -->
     <footer class="footer">
-      <p class="p-footer">© 2025 IntelliAsk - Creato con ❤️ da <a href="https://ilariagalliano.netlify.app/"
+      <p class="p-footer">© 2025 IntelliAsk - {{ $t('created_by') }} ❤️ da <a href="https://ilariagalliano.netlify.app/"
           target="_blank">Ilaria</a></p>
-      <a href="https://www.paypal.com/donate/?hosted_button_id=VM7YKBPDUMJMQ" target="_blank"
-      style="
+      <a href="https://www.paypal.com/donate/?hosted_button_id=VM7YKBPDUMJMQ" target="_blank" style="
         background-color: #0078d7;
         color: white;
         padding: 10px 15px;
@@ -51,7 +60,7 @@
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         transition: background-color 0.3s ease;
         display: inline-block;
-     ">☕ Offrimi un caffè</a>
+     ">☕ {{ $t('offer_coffee') }}</a>
     </footer>
   </div>
 </template>
@@ -64,6 +73,10 @@ const answer = ref('')
 const slug = ref('')
 const error = ref('')
 const isLoading = ref(false)
+
+import { useI18n } from 'vue-i18n';
+
+const { locale } = useI18n();
 
 const prodUrl = 'https://intelliask-backend.onrender.com/ask'
 
@@ -147,6 +160,10 @@ function copyToClipboard() {
     alert("Errore durante la copia della risposta.")
   })
 }
+
+function changeLanguage(lang) {
+  locale.value = lang;
+}
 </script>
 
 <style>
@@ -199,7 +216,6 @@ body {
   background-color: var(--card-bg);
   text-align: center;
   padding: 1rem 0;
-  z-index: 1000;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
@@ -267,6 +283,12 @@ button {
 
 button:hover {
   opacity: 0.9;
+}
+
+.p-absolute {
+  position: absolute;
+  right: 26%;
+  z-index: 1000;
 }
 
 .copy-button {
@@ -359,9 +381,44 @@ button:hover {
   pointer-events: none;
 }
 
+/* Stile moderno per il selettore di lingua */
+.language-selector {
+  appearance: none;
+  background-color: var(--card-bg);
+  border: 1px solid var(--primary-color);
+  border-radius: var(--radius);
+  padding: 0.4rem 1rem;
+  font-size: 1rem;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+  outline: none;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+  display: block;
+}
+
+.language-selector:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.language-selector:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(0, 120, 215, 0.2);
+}
+
+.language-selector option {
+  background-color: white;
+  color: var(--text-color);
+  padding: 0.5rem;
+}
+
 
 /* Responsive - Tablet */
-@media (max-width: 768px) {
+@media (max-width: 830px) {
   .container {
     margin: 1rem;
     padding: 1.5rem;
@@ -375,6 +432,13 @@ button:hover {
   button {
     font-size: 1rem;
     padding: 0.8rem;
+  }
+
+  .p-absolute {
+    position: absolute;
+    right: 53px;
+    top: 68px;
+    z-index: 1000;
   }
 
   .recipe-title {
@@ -400,6 +464,13 @@ button:hover {
 
   button {
     width: 50%;
+  }
+
+  .p-absolute {
+    position: absolute;
+    right: 36px;
+    top: 40px;
+    z-index: 1000;
   }
 
   .logo {
