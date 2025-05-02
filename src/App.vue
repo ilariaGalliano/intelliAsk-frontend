@@ -47,7 +47,7 @@
 
     <!-- Footer -->
     <footer class="footer">
-      <p class="p-footer">© 2025 IntelliAsk - {{ $t('created_by') }} ❤️ da <a href="https://ilariagalliano.netlify.app/"
+      <p class="p-footer">© 2025 IntelliAsk - {{ $t('created_by') }} ❤️ <a href="https://ilariagalliano.netlify.app/"
           target="_blank">Ilaria</a></p>
       <a href="https://www.paypal.com/donate/?hosted_button_id=VM7YKBPDUMJMQ" target="_blank" style="
         background-color: #0078d7;
