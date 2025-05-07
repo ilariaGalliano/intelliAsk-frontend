@@ -2,3 +2,8 @@
   from = "/question/*"
   to = "https://intelliask-backend.onrender.com/question/:splat"
   status = 200
+
+[[redirects]]
+  from = "/ads.txt"
+  to = "/ads.txt"
+  status = 200
